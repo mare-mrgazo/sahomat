@@ -17,6 +17,7 @@
    ```sh
    node server.js
    ```
+Default ports are 3000 and 4000.
    
 ### Images
 
