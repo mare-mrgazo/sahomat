@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>sahomat</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div id="board"></div>
+</body>
+<script src="app.js"></script>
+<script>
+    const port = window.location.port
+
+    async function post(data, pipe) {
+        const options = {
+            method: 'POST',
+            body: JSON.stringify(data),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }
+        var response = await fetch(pipe, options)
+        response = await response.json()
+        return response
+    }
+
+    async function get(pipe) {
+        const response = await fetch(pipe)
+        var data = await response.json()
+        return data
+    }
+
+    function endTurn() {  // i have ended my turn
+        const data = {
+            message: `I (${port}) am done with my turn`,
+            port: port
+        }
+        post(data, '/turn')
+    }
+
+    var color, myTurn = false
+    async function main() {
+        await get(`/${port}`).then(response => { // what pieces do i have ? 
+            color = response.pieces
+            console.log(response.message)
+        })
+
+        await init() // create all the DOMs for the pieces
+        await arange() // get positions of the pieces for the first time
+
+        await setInterval(async () => {
+            await get('turn').then(response => { // is it my turn ?
+                //console.log(response.message)
+                const portOnTurn = response.onTurn
+                myTurn = port == portOnTurn ? true : false
+            })
+            await arange()
+        }, 20)
+    }
+
+    main()
+</script>
+
+</html>

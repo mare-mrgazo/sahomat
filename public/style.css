@@ -1,0 +1,52 @@
+body {
+    min-height: 100%;
+    margin: 0;
+    display: grid;
+    background-color: slategray;
+}
+
+html {
+    height: 100%;
+}
+
+#board {
+    aspect-ratio: 1;
+    width: 500px;
+    place-self: center;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+}
+
+.square {
+    aspect-ratio: 1;
+    margin: 0;
+    display: grid;
+}
+
+.div-piece {
+    aspect-ratio: 1;
+    overflow: hidden;
+    display: grid;
+    cursor: grab;
+}
+
+.div-piece:active {
+    cursor: grabbing;
+}
+
+.img-piece {
+    width: 100%;
+    place-self: center;
+}
+
+body,
+.div-piece,
+.img-piece,
+.square,
+#board {
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-drag: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+}
